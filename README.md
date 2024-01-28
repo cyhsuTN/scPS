@@ -2,7 +2,7 @@ scPS
 ================
 Chih-Yuan Hsu
 
-Jan. 27, 2024 (Working)
+Jan. 27, 2024 (Updating)
 
 # Introduction to scPS
 
