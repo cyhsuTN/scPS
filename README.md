@@ -67,7 +67,7 @@ FC <- rep(1, length(vvmean1))
 FC[1:50] <- preParas$means2[1:50]/preParas$means1[1:50]
 vvrho <- preParas$icc
 
-size.view <- sizeCal2(low.up.m=c(16,22), low.up.n=c(5,50), ePower=0.8, FDR=0.05,
+size.view <- sizeCal(low.up.m=c(16,22), low.up.n=c(5,50), ePower=0.8, FDR=0.05,
          grid.m=1, grid.n=5, r=1, total=NULL,
          vvmean1=vvmean1[1:1000], FC=FC[1:1000], vvrho=vvrho[1:1000], hf=hf)
 ```
