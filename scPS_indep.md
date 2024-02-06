@@ -68,7 +68,7 @@ allocation ratio.
 
 ``` r
 # Set different FC, 2.1, 2.2, ..., 2.5
-# Fixed 4 subjects per group 
+# Fix 4 subjects per group 
 esizes <- seq(2.1, 2.5, 0.1)
 list3 <- lapply(esizes, function(x) {
   FC <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
