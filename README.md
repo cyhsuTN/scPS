@@ -2,9 +2,11 @@ scPS
 ================
 Chih-Yuan Hsu
 
+Feb/05/2024 (Updating)
+
 ## Installation
 
-Download scPS_0.2.0.tar.gz and locally install it, or execute the
+Download XXX.tar.gz and locally install it, or execute the
 following code:
 
 ``` r
