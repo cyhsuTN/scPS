@@ -70,7 +70,7 @@ cell numbers at pre- and post-treatment groups.
 
 ``` r
 # Set different FC, 1.7, 1.8, ..., 2.1
-# Fixed 7 subjects (total) 
+# Fix 7 subjects (total) 
 esizes <- seq(1.7, 2.1, 0.1)
 list3 <- lapply(esizes, function(x) {
   FC <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
