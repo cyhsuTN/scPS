@@ -19,8 +19,8 @@ set.seed(12345)
 # means of 1000 candidate genes in pre-treatment
 vvmean1 <- rgamma(1000, shape=2, scale=0.5)
 
-# 2-fold mean ratio (post-treatment to pre-treatment) in 5% DEGs
-MR <- c(rep(2, 50), rep(1, 950))
+# 2-fold change (post-treatment to pre-treatment) in 5% DEGs
+FC <- c(rep(2, 50), rep(1, 950))
 
 # cell-cell correlations for 1000 candidate genes within subject
 vvrho <- runif(1000, 0, 0.2) 
@@ -37,7 +37,7 @@ cell numbers at pre- and post-treatment groups.
 
 ``` r
 view.size <- sizeCal.BA(low.up.m=c(6,10), low.up.n=c(20,100), ePower=0.8, FDR=0.05,
-            grid.m=1, grid.n=10, r=1, vvmean1, MR, vvrho, hf)
+            grid.m=1, grid.n=10, r=1, vvmean1, FC, vvrho, hf)
 view.size$fig
 ```
 
@@ -63,20 +63,20 @@ icc <- rep(0.01, length(mean.control))
 hf <- function(x) sqrt(2*x)
 ```
 
-#### Powers at a fixed sample size but with different levels of MR
+#### Powers at a fixed sample size but with different levels of FC
 
 At FDR = 0.05, expected power = 0.8 (marked in blue), 1:1 (r = 1) equal
 cell numbers at pre- and post-treatment groups.
 
 ``` r
-# Set different MR, 1.7, 1.8, ..., 2.1
+# Set different FC, 1.7, 1.8, ..., 2.1
 # Fixed 7 subjects (total) 
 esizes <- seq(1.7, 2.1, 0.1)
 list3 <- lapply(esizes, function(x) {
-  MR <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
+  FC <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
   size.view <- sizeCal.BA(low.up.m=c(7,7), low.up.n=c(100,150), ePower=0.8, FDR=0.05,
                         grid.m=1, grid.n=5, r=1,
-                        vvmean1=mean.control, MR=MR, vvrho=icc, hf=hf)
+                        vvmean1=mean.control, FC=FC, vvrho=icc, hf=hf)
   cbind(x=x, size.view$m.n.power)
 })
 dat2 <- do.call(rbind, list3); ePower <- 0.8
@@ -91,7 +91,7 @@ fig <- ggplot(dat2, aes(x=x, y=n, fill=power)) +
   scale_fill_gradient(low = "yellow", high = "green") +
   scale_x_continuous(breaks = dat2$x) +
   scale_y_continuous(breaks = dat2$n) +
-  xlab("Effect size (MR)") +
+  xlab("Effect size (FC)") +
   ylab("No. of cells of interest per subject in pre-stage") +
   theme_minimal()
 fig
