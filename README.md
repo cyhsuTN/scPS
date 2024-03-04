@@ -6,13 +6,7 @@ Feb/16/2024 (Updating)
 
 ## Installation
 
-Download XXX.tar.gz and locally install it, or execute the
-following code:
-
-``` r
-#library(devtools)
-#install_github("cyhsuTN/scPS")
-```
+Download scPS_0.3.1.tar.gz and locally install it.
 
 ## Usage
 
