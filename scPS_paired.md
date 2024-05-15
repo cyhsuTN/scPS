@@ -102,8 +102,9 @@ fig <- ggplot(dat2, aes(x=x, y=n, fill=power)) +
 fig
 ```
 
-![](scPS_paired_files/figure-gfm/5-1.png)<!-- --> Gray points denote FDR
-cannot be controlled under a given level.
+![](scPS_paired_files/figure-gfm/5-1.png)<!-- --> 
+
+Gray points denote FDR cannot be controlled under a given level.
 
 ### Example 3
 
