@@ -2,7 +2,7 @@ scPS
 ================
 Chih-Yuan Hsu
 
-Feb/16/2024 (Updating)
+May/15/2024 (Updating)
 
 ## Installation
 
@@ -24,3 +24,11 @@ library(scPS)
 
 - [Comparison between two independent groups](scPS_indep.md)
 - [Comparison between pre- and post-treatment groups](scPS_paired.md)
+
+
+### Web Version of scPS
+
+- Independent two-group comparison:
+  <https://cyhsutn.shinyapps.io/scPS_shiny_Indep/>
+- Paired-group comparison:
+  <https://cyhsutn.shinyapps.io/scPS_shiny_Paired/>
