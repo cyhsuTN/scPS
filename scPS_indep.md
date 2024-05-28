@@ -17,7 +17,7 @@ library(ggplot2)
 ``` r
 set.seed(12345)
 # means of 1000 candidate genes in control
-vvmean1 <- rgamma(1000, shape=2, scale=0.5) # The average of gene means = 1.
+vvmean1 <- rep(1, 1000) # Gene means are scaled to 1.
 
 # 2-fold change (experiment to control) in 5% DEGs
 FC <- c(rep(2, 50), rep(1, 950))
@@ -41,7 +41,7 @@ allocation ratio, 1:1 (rc = 1) cells ratio (a ratio of cell numbers in
 experiment to control).
 
 ``` r
-view.size <- sizeCal(low.up.m=c(8,12), low.up.n=c(40,70), ePower=0.8, FDR=0.05,
+view.size <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
                      grid.m=1, grid.n=5, r=1, rc=1, total=NULL, vvmean1, FC, vvrho, hf)
 view.size$fig
 ```
