@@ -25,8 +25,8 @@ FC <- c(rep(2, 50), rep(1, 950))
 # Provide cell-cell correlations for 1000 candidate genes within subject
 # Correlations can be fitted well with a gamma distribution, 
 # according to real data. The shape and scale parameters in gamma can be
-# calculated by gammaTrans when given a mean and a 0.95 quantile of ICCs.
-ab <- gammaTrans(mean=0.01, q95=0.1) # transform to shape and scale
+# calculated by gammaTrans when given the mean and the 0.95 quantile of ICCs.
+ab <- gammaTrans(mean=0.01, q95=0.1) # Output the shape and scale parameters.
 vvrho <- rgamma(1000, shape=ab[1], scale=ab[2])
 
 # Relationship between gene standard deviations and gene means
