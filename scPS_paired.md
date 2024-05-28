@@ -40,8 +40,8 @@ At FDR = 0.05, expected power = 0.8 (marked in blue), 1:1 (rc = 1) equal
 cell numbers at pre- and post-treatment groups.
 
 ``` r
-view.size <- sizeCal.BA(low.up.m=c(8,12), low.up.n=c(30,90), ePower=0.8, FDR=0.05,
-            grid.m=1, grid.n=10, rc=1, vvmean1, FC, vvrho, hf)
+view.size <- sizeCal.BA(low.up.m=c(9,13), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
+            grid.m=1, grid.n=5, rc=1, vvmean1, FC, vvrho, hf)
 view.size$fig
 ```
 
