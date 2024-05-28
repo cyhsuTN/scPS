@@ -17,7 +17,7 @@ library(ggplot2)
 ``` r
 set.seed(12345)
 # means of 1000 candidate genes in pre-treatment
-vvmean1 <- rgamma(1000, shape=2, scale=0.5)
+vvmean1 <- rep(1, 1000) # Gene means are scaled to 1.
 
 # 2-fold change (post-treatment to pre-treatment) in 5% DEGs
 FC <- c(rep(2, 50), rep(1, 950))
