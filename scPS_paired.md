@@ -49,6 +49,22 @@ view.size$fig
 
 Gray points denote FDR cannot be controlled under a given level.
 
+Show optimal m and n combination minimizing costs, given a cost
+function:
+
+``` r
+head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
+```
+
+    ##    cost  m n1 n2     power
+    ## 5   780 13 30 30 0.8491567
+    ## 9   840 12 35 35 0.8658867
+    ## 13  880 11 40 40 0.8593394
+    ## 17  900 10 45 45 0.8226555
+    ## 10  910 13 35 35 0.9232822
+    ## 14  960 12 40 40 0.9266010
+
+
 ### Example 2
 
 #### A hypothesized information
