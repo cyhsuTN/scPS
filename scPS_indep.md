@@ -48,6 +48,21 @@ view.size$fig
 
 ![](scPS_indep_files/figure-gfm/2-1.png)<!-- -->
 
+Show optimal m and n combination minimizing costs, given a cost
+function:
+
+``` r
+head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
+```
+
+    ##    cost m1 m2 n1 n2     power
+    ## 8   700 10 10 35 35 0.8022755
+    ## 5   720 12 12 30 30 0.8458291
+    ## 9   770 11 11 35 35 0.8592162
+    ## 13  800 10 10 40 40 0.8587934
+    ## 21  800  8  8 50 50 0.8160474
+    ## 17  810  9  9 45 45 0.8458745
+
 ### Example 2
 
 #### A hypothesized information
