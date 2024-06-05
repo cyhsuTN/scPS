@@ -145,8 +145,9 @@ geneObject <- estPreParas.multi(counts, cell.info, id="ptID", x1="TX",
 
 #### Select 2000 candidate genes for each cell type (NK and B cells)
 
-Take 1 ~ 2 minutes. 2000 candidate genes are selected according to the
-smallest unadjusted p-values.
+Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed fold-changes are selected 
+as candidate genes of interest and the top 1% genes with the smallest unadjusted p-values among the 
+candidate genes are considered as DEGs.
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
