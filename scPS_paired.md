@@ -16,8 +16,12 @@ library(ggplot2)
 
 ``` r
 set.seed(12345)
-# means of 1000 candidate genes in pre-treatment
-vvmean1 <- rep(1, 1000) # Gene means are scaled to 1.
+# Provide gene means for 1000 candidate genes in control
+# Gene means can be fitted with a gamma distribution, 
+# according to real data. The shape and scale parameters in gamma can be
+# calculated by gammaTrans when given the mean and the 0.95 quantile of gene means.
+abm <- gammaTrans(mean=1, q95=3)
+vvmean1 <- rgamma(1000, shape=abm[1], scale=abm[2])
 
 # 2-fold change (post-treatment to pre-treatment) in 5% DEGs
 FC <- c(rep(2, 50), rep(1, 950))
@@ -57,19 +61,19 @@ head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
 ```
 
     ##    cost  m n1 n2     power
-    ## 5   780 13 30 30 0.8491567
-    ## 9   840 12 35 35 0.8658867
-    ## 13  880 11 40 40 0.8593394
-    ## 17  900 10 45 45 0.8226555
-    ## 10  910 13 35 35 0.9232822
-    ## 14  960 12 40 40 0.9266010
-
+    ## 20 1170 13 45 45 0.8002536
+    ## 25 1300 13 50 50 0.8268725
+    ## 29 1320 12 55 55 0.8185386
+    ## 33 1320 11 60 60 0.8018113
+    ## 30 1430 13 55 55 0.8457898
+    ## 34 1440 12 60 60 0.8374937
 
 ### Example 2
 
 #### A hypothesized information
 
 ``` r
+set.seed(12345)
 # means of 2000 candidate genes in control
 mean.control <- rep(1, 2000)
 
@@ -77,7 +81,7 @@ mean.control <- rep(1, 2000)
 n.DEG <- length(mean.control)*0.01
 
 # cell-cell correlations for 2000 candidate genes within subject
-ab <- gammaTrans(mean=0.01, q95=0.1) # transform to shape and scale
+ab <- gammaTrans(mean=0.01, q95=0.1) # Output the shape and scale parameters.
 icc <- rgamma(2000, shape=ab[1], scale=ab[2])
 
 # Relationship between gene standard deviations and gene means
@@ -118,9 +122,8 @@ fig <- ggplot(dat2, aes(x=x, y=n, fill=power)) +
 fig
 ```
 
-![](scPS_paired_files/figure-gfm/5-1.png)<!-- --> 
-
-Gray points denote FDR cannot be controlled under a given level.
+![](scPS_paired_files/figure-gfm/5-1.png)<!-- --> Gray points denote FDR
+cannot be controlled under a given level.
 
 ### Example 3
 
@@ -145,8 +148,10 @@ geneObject <- estPreParas.multi(counts, cell.info, id="ptID", x1="TX",
 
 #### Select 2000 candidate genes for each cell type (NK and B cells)
 
-Take 1 ~ 2 minutes. 2000 candidate genes are selected according to the
-smallest unadjusted p-values.
+Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed
+fold-changes are selected as candidate genes of interest and the top 1%
+genes with the smallest unadjusted p-values among the candidate genes
+are considered as DEGs.
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
@@ -179,7 +184,7 @@ view.size$fig
 plotPower.sep(view.size)
 ```
 
-![](scPS_paired_files/figure-gfm/paired_10-1.png)<!-- -->
+![](scPS_paired_files/figure-gfm/10-1.png)<!-- -->
 
 ``` r
 #dev.off
