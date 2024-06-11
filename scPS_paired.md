@@ -122,8 +122,9 @@ fig <- ggplot(dat2, aes(x=x, y=n, fill=power)) +
 fig
 ```
 
-![](scPS_paired_files/figure-gfm/5-1.png)<!-- --> Gray points denote FDR
-cannot be controlled under a given level.
+![](scPS_paired_files/figure-gfm/5-1.png)<!-- -->
+
+Gray points denote FDR cannot be controlled under a given level.
 
 ### Example 3
 
@@ -148,16 +149,10 @@ geneObject <- estPreParas.multi(counts, cell.info, id="ptID", x1="TX",
 
 #### Select 2000 candidate genes for each cell type (NK and B cells)
 
-<<<<<<< HEAD
 Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed
 fold-changes are selected as candidate genes of interest and the top 1%
 genes with the smallest unadjusted p-values among the candidate genes
 are considered as DEGs.
-=======
-Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed fold-changes are selected 
-as candidate genes of interest and the top 1% genes with the smallest unadjusted p-values among the 
-candidate genes are considered as DEGs.
->>>>>>> 3d0110b6be84cb8c6f134282ae6844a50f235b0f
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
