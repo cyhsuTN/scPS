@@ -72,6 +72,7 @@ head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
 #### A hypothesized information
 
 ``` r
+set.seed(12345)
 # means of 2000 candidate genes in control
 mean.control <- rep(1, 2000)
 
@@ -93,9 +94,9 @@ allocation ratio, 1:1 (rc = 1) cells ratio (a ratio of cell numbers in
 experiment to control).
 
 ``` r
-# Set different FC, 2.1, 2.2, ..., 2.5
+# Set different FC, 1.6, 1.7, ..., 2.0
 # Fixed 8 subjects per group 
-esizes <- seq(2.1, 2.5, 0.1)
+esizes <- seq(1.6, 2.0, 0.1)
 list3 <- lapply(esizes, function(x) {
   FC <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
   size.view <- sizeCal(low.up.m=c(8,8), low.up.n=c(60,200), ePower=0.8, FDR=0.05,
@@ -123,6 +124,8 @@ fig
 
 ![](scPS_indep_files/figure-gfm/5-1.png)<!-- -->
 
+Gray points denote FDR cannot be controlled under a given level.
+
 ### Example 3
 
 #### A pilot data that has been normalized by relative counts
@@ -146,16 +149,10 @@ geneObject <- estPreParas.multi(counts, cell.info,
 
 #### Select 2000 candidate genes for each cell type (DC and Prolif.T cells)
 
-<<<<<<< HEAD
 Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed
 fold-changes are selected as candidate genes of interest and the top 1%
 genes with the smallest unadjusted p-values among the candidate genes
 are considered as DEGs.
-=======
-Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed fold-changes are selected 
-as candidate genes of interest and the top 1% genes with the smallest unadjusted p-values among the 
-candidate genes are considered as DEGs.
->>>>>>> 3d0110b6be84cb8c6f134282ae6844a50f235b0f
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
