@@ -16,8 +16,12 @@ library(ggplot2)
 
 ``` r
 set.seed(12345)
-# means of 1000 candidate genes in control
-vvmean1 <- rep(1, 1000) # Gene means are scaled to 1.
+# Provide gene means for 1000 candidate genes in control
+# Gene means can be fitted with a gamma distribution, 
+# according to real data. The shape and scale parameters in gamma can be
+# calculated by gammaTrans when given the mean and the 0.95 quantile of gene means.
+abm <- gammaTrans(mean=1, q95=3)
+vvmean1 <- rgamma(1000, shape=abm[1], scale=abm[2])
 
 # 2-fold change (experiment to control) in 5% DEGs
 FC <- c(rep(2, 50), rep(1, 950))
@@ -56,12 +60,12 @@ head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
 ```
 
     ##    cost m1 m2 n1 n2     power
-    ## 8   700 10 10 35 35 0.8022755
-    ## 5   720 12 12 30 30 0.8458291
-    ## 9   770 11 11 35 35 0.8592162
-    ## 13  800 10 10 40 40 0.8587934
-    ## 21  800  8  8 50 50 0.8160474
-    ## 17  810  9  9 45 45 0.8458745
+    ## 25 1200 12 12 50 50 0.8170643
+    ## 33 1200 10 10 60 60 0.8021059
+    ## 29 1210 11 11 55 55 0.8116169
+    ## 30 1320 12 12 55 55 0.8292972
+    ## 34 1320 11 11 60 60 0.8232441
+    ## 35 1440 12 12 60 60 0.8381663
 
 ### Example 2
 
@@ -75,7 +79,7 @@ mean.control <- rep(1, 2000)
 n.DEG <- length(mean.control)*0.01
 
 # cell-cell correlations for 2000 candidate genes within subject
-ab <- gammaTrans(mean=0.01, q95=0.1) # transform to shape and scale
+ab <- gammaTrans(mean=0.01, q95=0.1) # Output the shape and scale parameters.
 icc <- rgamma(2000, shape=ab[1], scale=ab[2])
 
 # Relationship between gene standard deviations and gene means
@@ -142,8 +146,10 @@ geneObject <- estPreParas.multi(counts, cell.info,
 
 #### Select 2000 candidate genes for each cell type (DC and Prolif.T cells)
 
-Take 1 ~ 2 minutes. 2000 candidate genes are selected according to the
-smallest unadjusted p-values.
+Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed
+fold-changes are selected as candidate genes of interest and the top 1%
+genes with the smallest unadjusted p-values among the candidate genes
+are considered as DEGs.
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
@@ -170,7 +176,7 @@ view.size$fig
 plotPower.sep(view.size)
 ```
 
-![](scPS_indep_files/figure-gfm/indep_10-1.png)<!-- -->
+![](scPS_indep_files/figure-gfm/10-1.png)<!-- -->
 
 ``` r
 #dev.off
