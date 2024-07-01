@@ -20,7 +20,7 @@ set.seed(12345)
 # Gene means can be fitted with a gamma distribution, 
 # according to real data. The shape and scale parameters in gamma can be
 # calculated by gammaTrans when given the mean and the 0.95 quantile of gene means.
-abm <- gammaTrans(mean=1, q95=3)
+abm <- gammaTrans(mean=1, q95=2.5)
 vvmean1 <- rgamma(1000, shape=abm[1], scale=abm[2])
 
 # 2-fold change (experiment to control) in 5% DEGs
