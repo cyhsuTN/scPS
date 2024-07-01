@@ -1,4 +1,4 @@
-scPS
+scPS: power and sample size in differential expression analysis of scRNAseq data
 ================
 Chih-Yuan Hsu
 
