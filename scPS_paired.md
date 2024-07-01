@@ -185,7 +185,7 @@ view.size$fig
 plotPower.sep(view.size)
 ```
 
-![](scPS_paired_files/figure-gfm/10-1.png)<!-- -->
+![](scPS_paired_files/figure-gfm/paired_10-1.png)<!-- -->
 
 ``` r
 #dev.off
