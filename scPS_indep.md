@@ -1,18 +1,27 @@
-Comparison between two independent groups
+Independent Two-group Comparison
 ================
 
 ``` r
 library(scPS)
 library(ggplot2)
+library(ggpubr)
+library(splines)
 ```
 
-- Example 1. With a fixed fold change (effect size)
-- Example 2. With a fixed sample size
-- Example 3. With a pilot data
+- Example 1. Powers at different sample sizes and cell numbers under a
+  fixed fold change
+- Example 2. Powers at different fold changes and cell numbers under a
+  fixed sample size
+- Example 3. Power and sample size calculation with a pilot data from a
+  COVID-19 subdata
+- Example 4. An optimal combination of sample sizes and cell numbers,
+  given a cost function
+- Example 5. Impact of cells ratios between groups on powers
+- Example 6. Impact of gene expression levels on powers
 
-### Example 1
+### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
-#### A simulated information (without data)
+#### Parameters setting, without pilot data
 
 ``` r
 set.seed(12345)
@@ -38,11 +47,11 @@ vvrho <- rgamma(1000, shape=ab[1], scale=ab[2])
 hf <- function(x) sqrt(x*(1+3*x))
 ```
 
-#### Powers at different sample sizes and cell numbers per sample
+#### Powers at different sample sizes and cell numbers
 
-At FDR = 0.05, expected power = 0.8 (marked in blue), 1:1 (r = 1)
+FDR = 0.05, an expected power = 0.8 (marked in blue), 1:1 (r = 1)
 allocation ratio, 1:1 (rc = 1) cells ratio (a ratio of cell numbers in
-experiment to control).
+the experiment group to those in the control group).
 
 ``` r
 view.size <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
@@ -50,58 +59,22 @@ view.size <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
 view.size$fig
 ```
 
-![](scPS_indep_files/figure-gfm/2-1.png)<!-- -->
+![](scPS_indep_files/figure-gfm/1.2-1.png)<!-- -->
 
-Show optimal m and n combination minimizing costs, given a cost
-function:
+### Example 2. Powers at different fold changes and cell numbers under a fixed sample size
 
-``` r
-head(optimalCost(view.size, costfun=function(m, n) m*n, ePower=0.8))
-```
-
-    ##    cost m1 m2 n1 n2     power
-    ## 10  840 12 12 35 35 0.8379576
-    ## 14  880 11 11 40 40 0.8370099
-    ## 18  900 10 10 45 45 0.8254618
-    ## 22  900  9  9 50 50 0.8024088
-    ## 15  960 12 12 40 40 0.8741697
-    ## 19  990 11 11 45 45 0.8674814
-
-### Example 2
-
-#### A hypothesized information
-
-``` r
-set.seed(12345)
-# means of 2000 candidate genes in control
-mean.control <- rep(1, 2000)
-
-# 1% DEGs
-n.DEG <- length(mean.control)*0.01
-
-# cell-cell correlations for 2000 candidate genes within subject
-ab <- gammaTrans(mean=0.01, q95=0.1) # Output the shape and scale parameters.
-icc <- rgamma(2000, shape=ab[1], scale=ab[2])
-
-# Relationship between gene standard deviations and gene means
-hf <- function(x) sqrt(x*(1+3*x))
-```
-
-#### Powers at a fixed sample size but with different levels of FC
-
-At FDR = 0.05, expected power = 0.8 (marked in blue), 1:1 (r = 1)
-allocation ratio, 1:1 (rc = 1) cells ratio (a ratio of cell numbers in
-experiment to control).
+We use the same parameters setting as above and consider 10 subjects per
+group.
 
 ``` r
 # Set different FC, 1.6, 1.7, ..., 2.0
-# Fixed 8 subjects per group 
+# Fix 10 subjects per group
 esizes <- seq(1.6, 2.0, 0.1)
 list3 <- lapply(esizes, function(x) {
-  FC <- c(rep(x, n.DEG), rep(1, length(mean.control) - n.DEG))
-  size.view <- sizeCal(low.up.m=c(8,8), low.up.n=c(60,200), ePower=0.8, FDR=0.05,
+  FC <- c(rep(x, 50), rep(1, 950))
+  size.view <- sizeCal(low.up.m=c(10,10), low.up.n=c(20,140), ePower=0.8, FDR=0.05,
                         grid.m=1, grid.n=20, r=1, rc=1, total=NULL,
-                        vvmean1=mean.control, FC=FC, vvrho=icc, hf=hf)
+                        vvmean1=vvmean1, FC=FC, vvrho=vvrho, hf=hf)
   cbind(x=x, size.view$m.n.power)
 })
 dat2 <- do.call(rbind, list3); ePower <- 0.8
@@ -122,37 +95,38 @@ fig <- ggplot(dat2, aes(x=x, y=n, fill=power)) +
 fig
 ```
 
-![](scPS_indep_files/figure-gfm/5-1.png)<!-- -->
+![](scPS_indep_files/figure-gfm/2.2-1.png)<!-- -->
 
 Gray points denote FDR cannot be controlled under a given level.
 
-### Example 3
+### Example 3. Power and sample size calculation with a pilot data from a COVID-19 subdata
 
-#### A pilot data that has been normalized by relative counts
+#### Load a pilot data that has been normalized by relative counts
 
 ``` r
+load(file = "DataForDemo/COVID19n.rda")
 counts <- COVID19n$counts
 cell.info <- COVID19n$cell.info
 ```
 
 #### Estimate required parameters from DC and Prolif.T cells of interest
 
-Take 1 ~ 2 minutes
+It takes 1 ~ 2 minutes.
 
 ``` r
 geneObject <- estPreParas.multi(counts, cell.info,
-                     id="SampleId", x1="condition",
-                     cells.interesting=c("T cells", "DC", "Prolif.T")[c(2,3)])
+                                id="SampleId", x1="condition", cellcluster="cellcluster",
+                                cells.interesting=c("T cells", "DC", "Prolif.T")[c(2,3)])
 ```
 
-    ## [1] "Independent two-group comparison"
+    ## [1] "Independent two groups"
 
 #### Select 2000 candidate genes for each cell type (DC and Prolif.T cells)
 
-Take 1 ~ 2 minutes. For each cell type, 2000 genes with large observed
-fold-changes are selected as candidate genes of interest and the top 1%
-genes with the smallest unadjusted p-values among the candidate genes
-are considered as DEGs.
+It take 1 ~ 2 minutes. For each cell type, 2000 genes with large
+observed fold-changes are selected as candidate genes of interest and
+the top 1% genes with the smallest unadjusted p-values among the
+candidate genes are considered as DEGs.
 
 ``` r
 Genes.tested <- geneCandidate(geneObject)
@@ -160,9 +134,9 @@ Genes.tested <- geneCandidate(geneObject)
 
     ## [1] "Independent two-group comparison"
 
-![](scPS_indep_files/figure-gfm/8-1.png)<!-- -->![](scPS_indep_files/figure-gfm/8-2.png)<!-- -->
+![](scPS_indep_files/figure-gfm/3.3-1.png)<!-- -->![](scPS_indep_files/figure-gfm/3.3-2.png)<!-- -->
 
-#### Total powers to detect the DEGs in the two cell types of interest
+#### Total powers to detect the DEGs in the two cell types
 
 ``` r
 view.size <- sizeCal.multi(low.up.m=c(10,14), low.up.n=c(200,500),
@@ -170,17 +144,120 @@ view.size <- sizeCal.multi(low.up.m=c(10,14), low.up.n=c(200,500),
 view.size$fig
 ```
 
-![](scPS_indep_files/figure-gfm/9-1.png)<!-- -->
+![](scPS_indep_files/figure-gfm/3.4-1.png)<!-- -->
 
-#### Separate powers for each cell type of interest
+#### Separate powers for each cell type
 
 ``` r
-#png("indep_10-1.png", width=3400, height=1600, res = 350)
 plotPower.sep(view.size)
 ```
 
-![](scPS_indep_files/figure-gfm/indep_10-1.png)<!-- -->
+![](scPS_indep_files/figure-gfm/3.5-1.png)<!-- -->
+
+### Example 4. An optimal combination of sample sizes and cell numbers, given a cost function
+
+We use the same scenario setting as used in Result section of our paper
+(independent two-group comparison). It can duplicate the result of
+Figure 2(b). Next we employ the function “optimalCost” to select an
+optimal combination.
 
 ``` r
-#dev.off
+load(file = "DataForDemo/Result_NB_indep.RData")
+
+mean1 <- Result_NB_indep$mean1
+FC <- Result_NB_indep$FC
+icc <- Result_NB_indep$icc
+
+eta <- Result_NB_indep$eta
+hf <- function(uu) {
+  xx <- log(uu)
+  exp(predict(eta, data.frame(xx=xx)))
+}
+
+size.view <- sizeCal(low.up.m=c(12,16), low.up.n=c(40,200), ePower=0.8, FDR=0.05,
+                     grid.m=1, grid.n=20, r=1, rc=1, total=NULL,
+                     vvmean1=mean1, FC=FC, vvrho=icc, hf=hf)
+size.view$fig
 ```
+
+![](scPS_indep_files/figure-gfm/4.1-1.png)<!-- -->
+
+#### Top 5 combinations of sample sizes and cell numbers, minimizing costs while achieving a power of 0.8, given a cost function of $C(m,n)=mn$
+
+``` r
+head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NULL), 5)
+```
+
+    ##   cost m1 m2 n1 n2     power
+    ## 4 1200 15 15 40 40 0.8121667
+    ## 5 1280 16 16 40 40 0.8246072
+    ## 7 1560 13 13 60 60 0.8027777
+    ## 8 1680 14 14 60 60 0.8200874
+    ## 9 1800 15 15 60 60 0.8348018
+
+#### Top 5 combination of sample sizes and cell numbers, maximizing powers under a given budget of 2000, given a cost function of $C(m,n)=mn$
+
+``` r
+head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 5)
+```
+
+    ##    cost m1 m2 n1 n2     power
+    ## 10 1920 16 16 60 60 0.8478585
+    ## 9  1800 15 15 60 60 0.8348018
+    ## 5  1280 16 16 40 40 0.8246072
+    ## 8  1680 14 14 60 60 0.8200874
+    ## 4  1200 15 15 40 40 0.8121667
+
+### Example 5. Impact of cells ratios between groups on powers
+
+With 13 subjects per group and a fixed total of cells, the powers at
+cells ratios of 5:1, 2:1, 1:1, 1:2, and 1:5 between groups are:
+
+``` r
+pm51 <- powerCal(ns=c(5,1)*20, ms=c(1,1)*13, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
+pm21 <- powerCal(ns=c(4,2)*20, ms=c(1,1)*13, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
+pm11 <- powerCal(ns=c(3,3)*20, ms=c(1,1)*13, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
+pm12 <- powerCal(ns=c(2,4)*20, ms=c(1,1)*13, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
+pm15 <- powerCal(ns=c(1,5)*20, ms=c(1,1)*13, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
+c(pm51[1], pm21[1], pm11[1], pm21[1], pm15[1])
+```
+
+    ##     power     power     power     power     power 
+    ## 0.7652599 0.7980628 0.8027777 0.7980628 0.7695569
+
+A 1:1 cells ratio achieves a larger power under a same total of cells.
+
+### Example 6. Impact of gene expression levels on powers
+
+We use the same scenario setting as used in Result section of our paper
+(independent two-group comparison) but divide the mean expression values
+of genes by 2 to generate data with lowly expressed genes. We compare
+the performance of powers between data with regular/normal expression
+level and data with low expression level.
+
+``` r
+load(file = "DataForDemo/Result_NB_indep_low.RData")
+
+mean1 <- Result_NB_indep$mean1
+FC <- Result_NB_indep$FC
+icc <- Result_NB_indep$icc
+
+eta <- Result_NB_indep$eta
+hf <- function(uu) {
+  xx <- log(uu)
+  exp(predict(eta, data.frame(xx=xx)))
+}
+
+size.view2 <- sizeCal(low.up.m=c(12,16), low.up.n=c(40,200), ePower=0.8, FDR=0.05,
+                     grid.m=1, grid.n=20, r=1, rc=1, total=NULL,
+                     vvmean1=mean1, FC=FC, vvrho=icc, hf=hf)
+```
+
+``` r
+ggarrange(plotlist=list(size.view$fig, size.view2$fig), nrow = 1,  ncol = 2)
+```
+
+![](scPS_indep_files/figure-gfm/6.2-1.png)<!-- --> Powers with lowly
+expressed data (right figure) are lower than those with regularly
+expressed data (left figure). More sample sizes will be required to
+achieve a power of 0.8.
