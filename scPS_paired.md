@@ -190,23 +190,28 @@ size.view$fig
 
 ![](scPS_paired_files/figure-gfm/4.1-1.png)<!-- -->
 
-#### Top 5 combinations of sample sizes and cell numbers, minimizing costs while achieving a power of 0.8, given a cost function of $C(m,n)=mn$
+#### Top 10 combinations of sample sizes and cell numbers, minimizing costs while achieving a power of 0.8, given a cost function of $C(m,n)=mn$
 
 ``` r
-head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NULL), 5)
+head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NULL), 10)
 ```
 
-    ##   cost  m n1 n2     power
-    ## 3  800 10 40 40 0.8068622
-    ## 4  880 11 40 40 0.8214601
-    ## 5  960 12 40 40 0.8378015
-    ## 7 1080  9 60 60 0.8111048
-    ## 8 1200 10 60 60 0.8321902
+    ##    cost  m n1 n2     power
+    ## 3   800 10 40 40 0.8068622
+    ## 4   880 11 40 40 0.8214601
+    ## 5   960 12 40 40 0.8378015
+    ## 7  1080  9 60 60 0.8111048
+    ## 8  1200 10 60 60 0.8321902
+    ## 11 1280  8 80 80 0.8053709
+    ## 9  1320 11 60 60 0.8570414
+    ## 10 1440 12 60 60 0.8790742
+    ## 12 1440  9 80 80 0.8285724
+    ## 13 1600 10 80 80 0.8606962
 
-#### Top 5 combination of sample sizes and cell numbers, maximizing powers under a given budget of 2000, given a cost function of $C(m,n)=mn$
+#### Top 10 combination of sample sizes and cell numbers, maximizing powers under a given budget of 2000, given a cost function of $C(m,n)=mn$
 
 ``` r
-head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 5)
+head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 10)
 ```
 
     ##    cost  m  n1  n2     power
@@ -215,6 +220,11 @@ head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 200
     ## 18 2000 10 100 100 0.8846285
     ## 10 1440 12  60  60 0.8790742
     ## 13 1600 10  80  80 0.8606962
+    ## 9  1320 11  60  60 0.8570414
+    ## 17 1800  9 100 100 0.8495938
+    ## 5   960 12  40  40 0.8378015
+    ## 8  1200 10  60  60 0.8321902
+    ## 12 1440  9  80  80 0.8285724
 
 ### Example 5. Impact of cells ratios between groups on powers
 
@@ -267,5 +277,5 @@ ggarrange(plotlist=list(size.view$fig, size.view2$fig), nrow = 1,  ncol = 2)
 
 ![](scPS_paired_files/figure-gfm/6.2-1.png)<!-- --> Powers with lowly
 expressed data (right figure) are lower than those with regularly
-expressed data (left figure). More sample sizes will be required to
-achieve a power of 0.8.
+expressed data (left figure). More samples will be required to achieve a
+power of 0.8.
