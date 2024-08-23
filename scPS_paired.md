@@ -237,11 +237,11 @@ pm21 <- powerCal.BA(ns=c(4,2)*20, m=9, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, F
 pm11 <- powerCal.BA(ns=c(3,3)*20, m=9, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
 pm12 <- powerCal.BA(ns=c(2,4)*20, m=9, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
 pm15 <- powerCal.BA(ns=c(1,5)*20, m=9, vvmean1=mean1, FC=FC, vvrho=icc, hf=hf, FDR=0.05)
-c(pm51[1], pm21[1], pm11[1], pm21[1], pm15[1])
+c(pm51[1], pm21[1], pm11[1], pm12[1], pm15[1])
 ```
 
     ##     power     power     power     power     power 
-    ## 0.7361495 0.8086601 0.8111048 0.8086601 0.7815392
+    ## 0.7361495 0.8086601 0.8111048 0.8043179 0.7815392
 
 A 1:1 cells ratio achieves a larger power under a same total of cells.
 
