@@ -16,8 +16,8 @@ library(scPS)
 
 ### Types of comparisons
 
-- [Comparison between two independent groups](scPS_indep.md)
-- [Comparison between pre- and post-treatment groups](scPS_paired.md)
+- [Comparison between independent two groups](scPS_indep.md)
+- [Comparison between paired groups](scPS_paired.md)
 
 ### Web Version of scPS
 
