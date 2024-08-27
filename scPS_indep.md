@@ -200,7 +200,7 @@ head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NUL
     ## 14    9 2400 15 15  80  80 0.8494109
     ## 16   10 2400 12 12 100 100 0.8050678
 
-#### Top 10 combinations of sample sizes and cell numbers, maximizing powers under a given budget of 2000, given a cost function of $C(m,n)=mn$
+#### Top 10 combinations of sample sizes and cell numbers, maximizing powers within a given budget of 2000, given a cost function of $C(m,n)=mn$
 
 ``` r
 head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 10)
