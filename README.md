@@ -6,7 +6,7 @@ August/26/2024
 
 ## Installation
 
-Download scPS_0.4.1.tar.gz and locally install it.
+Download scPS_0.5.0.tar.gz and locally install it.
 
 ## Usage
 
