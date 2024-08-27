@@ -8,8 +8,8 @@ library(ggpubr)
 library(splines)
 ```
 
-- [Example 1](#Example-1). Powers at different sample sizes and cell numbers under a
-  fixed fold change
+- [Example 1. Powers at different sample sizes and cell numbers under a
+  fixed fold change](#Example-1)
 - [Example 2](#Example-2). Powers at different fold changes and cell numbers under a
   fixed sample size
 - [Example 3](#Example-3). Power and sample size calculation with a pilot data from a
