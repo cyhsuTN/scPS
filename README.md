@@ -2,7 +2,7 @@ scPS: power and sample size calculation in differential expression analysis of s
 ================
 Chih-Yuan Hsu
 
-August/26/2024
+August/27/2024
 
 ## Installation
 
