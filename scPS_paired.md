@@ -50,8 +50,8 @@ hf <- function(x) sqrt(x*(1+3*x))
 #### Powers at different sample sizes and cell numbers
 
 FDR = 0.05, expected power = 0.8 (marked in blue), 1:1 (rc = 1) cells
-ratio (a ratio of cell numbers in pre-treatment group to those in
-post-treatment group).
+ratio (a ratio of cell numbers in post-treatment group to those in
+pre-treatment group).
 
 ``` r
 view.size <- sizeCal.BA(low.up.m=c(9,13), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
