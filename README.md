@@ -14,12 +14,13 @@ Download scPS_0.5.0.tar.gz and locally install it.
 library(scPS)
 ```
 
-### Types of comparisons
+### scPS Guidance for Experimental Design
+#### Types of comparisons
 
 - [Comparison between independent two groups](scPS_indep.md)
 - [Comparison between paired groups](scPS_paired.md)
 
-### Web Version of scPS
+### Web version of scPS
 
 - Independent two-group comparison:
   <https://cyhsutn.shinyapps.io/scPS_shiny_Indep/>
