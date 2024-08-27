@@ -17,7 +17,7 @@ library(splines)
 - [Example 4](#Example-4). An optimal combination of sample sizes and cell numbers,
   given a cost function
 - [Example 5](#Example-5). Impact of cells ratios between groups on powers
-- [Example 6](#Example-6). Impact of gene expression levels on powers
+- [Example 6. Impact of gene expression levels on powers](#Example-6.-Impact-of-gene-expression-levels-on-powers)
 
 ### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
