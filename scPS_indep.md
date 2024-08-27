@@ -188,17 +188,17 @@ size.view$fig
 head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NULL), 10)
 ```
 
-    ##    cost m1 m2  n1  n2     power
-    ## 4  1200 15 15  40  40 0.8121667
-    ## 5  1280 16 16  40  40 0.8246072
-    ## 7  1560 13 13  60  60 0.8027777
-    ## 8  1680 14 14  60  60 0.8200874
-    ## 9  1800 15 15  60  60 0.8348018
-    ## 10 1920 16 16  60  60 0.8478585
-    ## 12 2080 13 13  80  80 0.8166784
-    ## 13 2240 14 14  80  80 0.8341841
-    ## 14 2400 15 15  80  80 0.8494109
-    ## 16 2400 12 12 100 100 0.8050678
+    ##    Rank cost m1 m2  n1  n2     power
+    ## 4     1 1200 15 15  40  40 0.8121667
+    ## 5     2 1280 16 16  40  40 0.8246072
+    ## 7     3 1560 13 13  60  60 0.8027777
+    ## 8     4 1680 14 14  60  60 0.8200874
+    ## 9     5 1800 15 15  60  60 0.8348018
+    ## 10    6 1920 16 16  60  60 0.8478585
+    ## 12    7 2080 13 13  80  80 0.8166784
+    ## 13    8 2240 14 14  80  80 0.8341841
+    ## 14    9 2400 15 15  80  80 0.8494109
+    ## 16   10 2400 12 12 100 100 0.8050678
 
 #### Top 10 combinations of sample sizes and cell numbers, maximizing powers under a given budget of 2000, given a cost function of $C(m,n)=mn$
 
@@ -206,17 +206,17 @@ head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NUL
 head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 10)
 ```
 
-    ##    cost m1 m2 n1 n2     power
-    ## 10 1920 16 16 60 60 0.8478585
-    ## 9  1800 15 15 60 60 0.8348018
-    ## 5  1280 16 16 40 40 0.8246072
-    ## 8  1680 14 14 60 60 0.8200874
-    ## 4  1200 15 15 40 40 0.8121667
-    ## 7  1560 13 13 60 60 0.8027777
-    ## 3  1120 14 14 40 40 0.7975062
-    ## 11 1920 12 12 80 80 0.7955386
-    ## 6  1440 12 12 60 60 0.7812754
-    ## 2  1040 13 13 40 40 0.7793763
+    ##    Rank cost m1 m2 n1 n2     power
+    ## 10    1 1920 16 16 60 60 0.8478585
+    ## 9     2 1800 15 15 60 60 0.8348018
+    ## 5     3 1280 16 16 40 40 0.8246072
+    ## 8     4 1680 14 14 60 60 0.8200874
+    ## 4     5 1200 15 15 40 40 0.8121667
+    ## 7     6 1560 13 13 60 60 0.8027777
+    ## 3     7 1120 14 14 40 40 0.7975062
+    ## 11    8 1920 12 12 80 80 0.7955386
+    ## 6     9 1440 12 12 60 60 0.7812754
+    ## 2    10 1040 13 13 40 40 0.7793763
 
 ### Example 5. Impact of cells ratios between groups on powers
 
@@ -264,10 +264,10 @@ size.view2 <- sizeCal(low.up.m=c(12,16), low.up.n=c(40,200), ePower=0.8, FDR=0.0
 ```
 
 ``` r
-ggarrange(plotlist=list(size.view$fig, size.view2$fig), nrow = 1,  ncol = 2)
+ggarrange(plotlist=list(size.view2$fig, size.view$fig), nrow = 1,  ncol = 2)
 ```
 
 ![](scPS_indep_files/figure-gfm/6.2-1.png)<!-- --> Powers with lowly
-expressed data (right figure) are lower than those with regularly
-expressed data (left figure). More samples will be required to achieve a
-power of 0.8.
+expressed data (left figure) are lower than those with regularly
+expressed data (right figure). More samples will be required to achieve
+a power of 0.8.
