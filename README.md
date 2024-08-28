@@ -20,7 +20,7 @@ library(scPS)
 - [Comparison between independent two groups](scPS_indep.md)
 - [Comparison between paired groups](scPS_paired.md)
 
-### Web version of scPS
+### Web Version of scPS
 
 - Independent two-group comparison:
   <https://cyhsutn.shinyapps.io/scPS_shiny_Indep/>
