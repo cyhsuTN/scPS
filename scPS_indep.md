@@ -213,6 +213,7 @@ head(optimalCost(size.view, costfun=costfun1, ePower=0.8, budget = NULL, prop.th
     ## 13    8 15360.000 14 14  80  80 0.8341841
     ## 14    9 16457.143 15 15  80  80 0.8494109
     ## 16   10 16457.143 12 12 100 100 0.8050678
+Note that n1 and n2 are the number of cells of interest. Total cells per sample are n1/0.035 (n2/0.035). 
 
 #### Top 10 combinations of sample sizes and cell numbers, maximizing powers within a given budget of 20000, given a cost function of $C(m,n)=m\times n\times cost.per.cell$.
 
@@ -231,6 +232,7 @@ head(optimalCost(size.view, costfun=costfun1, ePower=0.8, budget = 20000, prop.t
     ## 5     8  8777.143 16 16  40  40 0.8246072
     ## 8     9 11520.000 14 14  60  60 0.8200874
     ## 12   10 14262.857 13 13  80  80 0.8166784
+Note that n1 and n2 are the number of cells of interest. Total cells per sample are n1/0.035 (n2/0.035).
 
 ### Example 5. Impact of cells ratios between groups on powers
 
