@@ -8,16 +8,27 @@ library(ggpubr)
 library(splines)
 ```
 
-- [Example 1](#Example-1-Powers-at-different-sample-sizes-and-cell-numbers-under-a-fixed-fold-change). Powers at different sample sizes and cell numbers under a
-  fixed fold change
-- [Example 2](#Example-2-Powers-at-different-fold-changes-and-cell-numbers-under-a-fixed-sample-size). Powers at different fold changes and cell numbers under a
-  fixed sample size
-- [Example 3](#Example-3-Power-and-sample-size-calculation-with-a-pilot-data-from-a-COVID-19-subdata). Power and sample size calculation with a pilot data from a
-  COVID-19 subdata
-- [Example 4](#Example-4-An-optimal-combination-of-sample-sizes-and-cell-numbers-given-a-cost-function). An optimal combination of sample sizes and cell numbers,
-  given a cost function
-- [Example 5](#Example-5-Impact-of-cells-ratios-between-groups-on-powers). Impact of cells ratios between groups on powers
-- [Example 6](#Example-6-Impact-of-gene-expression-levels-on-powers). Impact of gene expression levels on powers
+- [Example
+  1](#Example-1-Powers-at-different-sample-sizes-and-cell-numbers-under-a-fixed-fold-change).
+  Powers at different sample sizes and cell numbers under a fixed fold
+  change
+- [Example
+  2](#Example-2-Powers-at-different-fold-changes-and-cell-numbers-under-a-fixed-sample-size).
+  Powers at different fold changes and cell numbers under a fixed sample
+  size
+- [Example
+  3](#Example-3-Power-and-sample-size-calculation-with-a-pilot-data-from-a-COVID-19-subdata).
+  Power and sample size calculation with a pilot data from a COVID-19
+  subdata
+- [Example
+  4](#Example-4-An-optimal-combination-of-sample-sizes-and-cell-numbers-given-a-cost-function).
+  An optimal combination of sample sizes and cell numbers, given a cost
+  function
+- [Example
+  5](#Example-5-Impact-of-cells-ratios-between-groups-on-powers). Impact
+  of cells ratios between groups on powers
+- [Example 6](#Example-6-Impact-of-gene-expression-levels-on-powers).
+  Impact of gene expression levels on powers
 
 ### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
@@ -158,7 +169,7 @@ plotPower.sep(view.size)
 
 We use the same scenario setting as used in Result section of our paper
 (independent two-group comparison). It can duplicate the result of
-Figure 2(b). Next we employ the function “optimalCost” to select an
+Figure 2(b). Then we employ the function “optimalCost” to select an
 optimal combination.
 
 ``` r
@@ -182,41 +193,44 @@ size.view$fig
 
 ![](scPS_indep_files/figure-gfm/4.1-1.png)<!-- -->
 
-#### Top 10 combinations of sample sizes and cell numbers, minimizing costs while achieving a power of 0.8, given a cost function of $C(m,n)=mn$
+#### Top 10 combinations of sample sizes and cell numbers, minimizing costs while achieving a power of 0.8, given a cost function of $C(m,n)=m\times n\times cost.per.cell$.
 
 ``` r
-head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = NULL), 10)
+cost.per.cell <- 0.24 #Overall cost per cell $0.24 (20,000 reads/cell) https://satijalab.org/costpercell
+prop.this.cell <- 0.035 #Assume this cell type of interest constitutes 3.5% of the total cell population
+costfun1 <- function(m,n) m*n*cost.per.cell
+head(optimalCost(size.view, costfun=costfun1, ePower=0.8, budget = NULL, prop.this.cell), 10)
 ```
 
-    ##    Rank cost m1 m2  n1  n2     power
-    ## 4     1 1200 15 15  40  40 0.8121667
-    ## 5     2 1280 16 16  40  40 0.8246072
-    ## 7     3 1560 13 13  60  60 0.8027777
-    ## 8     4 1680 14 14  60  60 0.8200874
-    ## 9     5 1800 15 15  60  60 0.8348018
-    ## 10    6 1920 16 16  60  60 0.8478585
-    ## 12    7 2080 13 13  80  80 0.8166784
-    ## 13    8 2240 14 14  80  80 0.8341841
-    ## 14    9 2400 15 15  80  80 0.8494109
-    ## 16   10 2400 12 12 100 100 0.8050678
+    ##    Rank      cost m1 m2  n1  n2     power
+    ## 4     1  8228.571 15 15  40  40 0.8121667
+    ## 5     2  8777.143 16 16  40  40 0.8246072
+    ## 7     3 10697.143 13 13  60  60 0.8027777
+    ## 8     4 11520.000 14 14  60  60 0.8200874
+    ## 9     5 12342.857 15 15  60  60 0.8348018
+    ## 10    6 13165.714 16 16  60  60 0.8478585
+    ## 12    7 14262.857 13 13  80  80 0.8166784
+    ## 13    8 15360.000 14 14  80  80 0.8341841
+    ## 14    9 16457.143 15 15  80  80 0.8494109
+    ## 16   10 16457.143 12 12 100 100 0.8050678
 
-#### Top 10 combinations of sample sizes and cell numbers, maximizing powers within a given budget of 2000, given a cost function of $C(m,n)=mn$
+#### Top 10 combinations of sample sizes and cell numbers, maximizing powers within a given budget of 20000, given a cost function of $C(m,n)=m\times n\times cost.per.cell$.
 
 ``` r
-head(optimalCost(size.view, costfun=function(m, n) m*n, ePower=0.8, budget = 2000), 10)
+head(optimalCost(size.view, costfun=costfun1, ePower=0.8, budget = 20000, prop.this.cell), 10)
 ```
 
-    ##    Rank cost m1 m2 n1 n2     power
-    ## 10    1 1920 16 16 60 60 0.8478585
-    ## 9     2 1800 15 15 60 60 0.8348018
-    ## 5     3 1280 16 16 40 40 0.8246072
-    ## 8     4 1680 14 14 60 60 0.8200874
-    ## 4     5 1200 15 15 40 40 0.8121667
-    ## 7     6 1560 13 13 60 60 0.8027777
-    ## 3     7 1120 14 14 40 40 0.7975062
-    ## 11    8 1920 12 12 80 80 0.7955386
-    ## 6     9 1440 12 12 60 60 0.7812754
-    ## 2    10 1040 13 13 40 40 0.7793763
+    ##    Rank      cost m1 m2  n1  n2     power
+    ## 15    1 17554.286 16 16  80  80 0.8631144
+    ## 14    2 16457.143 15 15  80  80 0.8494109
+    ## 10    3 13165.714 16 16  60  60 0.8478585
+    ## 18    4 19200.000 14 14 100 100 0.8440913
+    ## 9     5 12342.857 15 15  60  60 0.8348018
+    ## 13    6 15360.000 14 14  80  80 0.8341841
+    ## 17    7 17828.571 13 13 100 100 0.8262628
+    ## 5     8  8777.143 16 16  40  40 0.8246072
+    ## 8     9 11520.000 14 14  60  60 0.8200874
+    ## 12   10 14262.857 13 13  80  80 0.8166784
 
 ### Example 5. Impact of cells ratios between groups on powers
 
@@ -239,11 +253,43 @@ A 1:1 cells ratio achieves a larger power under a same total of cells.
 
 ### Example 6. Impact of gene expression levels on powers
 
-We use the same scenario setting as used in Result section of our paper
-(independent two-group comparison) but divide the mean expression values
-of genes by 2 to generate data with lowly expressed genes. We compare
-the performance of powers between data with regular/normal expression
-level and data with low expression level.
+We use the parameters setting in Example 1 and consider 3 gene
+expression levels.
+
+``` r
+set.seed(12345)
+abm <- gammaTrans(mean=1, q95=2.5)
+vvmean1 <- rgamma(1000, shape=abm[1], scale=abm[2])
+FC <- c(rep(2, 50), rep(1, 950))
+ab <- gammaTrans(mean=0.01, q95=0.1)
+vvrho <- rgamma(1000, shape=ab[1], scale=ab[2])
+hf <- function(x) sqrt(x*(1+3*x))
+
+vvmean1_L4 <- vvmean1/4 # Very low gene expression level
+vvmean1_L2 <- vvmean1/2 # Low gene expression level
+vvmean1_N  <- vvmean1   # Normal gene expression level
+```
+
+``` r
+view.size_L4 <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
+                        grid.m=1, grid.n=5, r=1, rc=1, total=NULL, vvmean1_L4, FC, vvrho, hf)
+view.size_L2 <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
+                        grid.m=1, grid.n=5, r=1, rc=1, total=NULL, vvmean1_L2, FC, vvrho, hf)
+view.size_N  <- sizeCal(low.up.m=c(8,12), low.up.n=c(30,60), ePower=0.8, FDR=0.05,
+                        grid.m=1, grid.n=5, r=1, rc=1, total=NULL, vvmean1_N, FC, vvrho, hf)
+
+ggarrange(plotlist=list(view.size_L4$fig, view.size_L2$fig, view.size_N$fig), nrow = 1,  ncol = 3)
+```
+
+![](scPS_indep_files/figure-gfm/6.2-1.png)<!-- --> More samples are
+required to achieve a certain power as expression levels decrease, with
+other factors held constant.
+
+In addition, we employ the scenario setting as used in Result section of
+our paper (independent two-group comparison) but divide the mean
+expression values of genes by 2 to generate data with lowly expressed
+genes. We compare the performance of powers between data with
+regular/normal expression level and data with low expression level.
 
 ``` r
 load(file = "DataForDemo/Result_NB_indep_low.RData")
@@ -267,7 +313,7 @@ size.view2 <- sizeCal(low.up.m=c(12,16), low.up.n=c(40,200), ePower=0.8, FDR=0.0
 ggarrange(plotlist=list(size.view2$fig, size.view$fig), nrow = 1,  ncol = 2)
 ```
 
-![](scPS_indep_files/figure-gfm/6.2-1.png)<!-- --> Powers with lowly
+![](scPS_indep_files/figure-gfm/6.4-1.png)<!-- --> Powers with lowly
 expressed data (left figure) are lower than those with regularly
 expressed data (right figure). More samples will be required to achieve
 a power of 0.8.
