@@ -4,7 +4,7 @@ Chih-Yuan Hsu
 
 August/30/2024
 
-Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2024). A distribution-free and analytic method for power and sample size calculation in single-cell differential expression. Accepted to *Bioinformatics*.
+Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2024). A distribution-free and analytic method for power and sample size calculation in single-cell differential expression. Accepted to *Bioinformatics*. 10.1093/bioinformatics/btae540
 
 ## Installation
 
