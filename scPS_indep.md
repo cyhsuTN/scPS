@@ -29,7 +29,7 @@ library(splines)
   of cells ratios between groups on powers
 - [Example 6](#Example-6-Impact-of-gene-expression-levels-on-powers).
   Impact of gene expression levels on powers
-- [Example 7](#Hypothesis-testing). Hypothesis testing
+- [Example 7](#Example-7-Hypothesis-testing). Hypothesis testing
 
 ### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
