@@ -29,6 +29,7 @@ library(splines)
   of cells ratios between groups on powers
 - [Example 6](#Example-6-Impact-of-gene-expression-levels-on-powers).
   Impact of gene expression levels on powers
+- [Example 7](#Hypothesis-testing). Hypothesis testing
 
 ### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
@@ -327,3 +328,54 @@ ggarrange(plotlist=list(size.view2$fig, size.view$fig), nrow = 1,  ncol = 2)
 expressed data (left figure) are lower than those with regularly
 expressed data (right figure). More samples will be required to achieve
 a power of 0.8.
+
+### Example 7. Hypothesis testing
+
+We perform differential expression analysis on NK cells in the GSE120575
+subdata from Example 3.
+
+``` r
+## Select NK cells
+cells.interesting <- which(cell.info$cellcluster=="NK")
+counts.small <- counts[,cells.interesting]
+cell.info.small <- data.frame(id=cell.info[cells.interesting, "ptID"],
+        x1=ifelse(cell.info[cells.interesting, "TX"]=="Pre", 0, 1) )
+
+## Select genes that will be tested
+aa <- estPreParas(counts=counts.small, cell.info=cell.info.small)
+idx.selected <- with(aa, which(nonZeroPs1>0.1 & nonZeroPs2>0.1))
+aaP <- aa[idx.selected,]
+curve.view <- fitSdmean(preParas=aaP, sp.method = "ns")
+```
+
+![](scPS_paired_files/figure-gfm/7.1-1.png)<!-- -->
+
+``` r
+hf <- curve.view$hf.sigma
+
+## Test the selected genes
+counts.test <- counts.small[idx.selected,]
+geeout <- geeDEA.BA(counts.test, cell.info=cell.info.small, hf=hf, BCC=1)
+```
+
+    ## [1] "Warning: id P28 are excluded from calculation because empty in one of paired groups"
+
+``` r
+head(geeout)
+```
+
+    ##              logFC     unadj.p           icc   est.mu1   est.mu2   raw.mu1
+    ## DPM1    -0.4737616 0.117752469  0.0009488892 1177.9751  733.4729 1183.4584
+    ## FGR     -0.3525102 0.311758764  0.0195510637 2632.3691 1850.3485 2681.7459
+    ## FUCA2   -1.2466200 0.002401416 -0.0009597243  562.4773  161.6981  566.7829
+    ## NIPAL3   0.9151335 0.031869984 -0.0022477941  154.4879  385.7730  155.1410
+    ## ANKIB1  -1.1000887 0.078768364  0.0166720079 1148.1675  382.1578 1228.4814
+    ## CYP51A1 -0.4885694 0.166874939  0.0005350109  290.3967  178.1594  292.1224
+    ##          raw.mu2
+    ## DPM1    726.1326
+    ## FGR     943.0032
+    ## FUCA2   160.2400
+    ## NIPAL3  379.3108
+    ## ANKIB1  329.5073
+    ## CYP51A1 177.0832
+
