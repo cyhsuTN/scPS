@@ -29,6 +29,7 @@ library(splines)
   of cells ratios between groups on powers
 - [Example 6](#Example-6-Impact-of-gene-expression-levels-on-powers).
   Impact of gene expression levels on powers
+- [Example 7](#Hypothesis-testing). Hypothesis testing
 
 ### Example 1. Powers at different sample sizes and cell numbers under a fixed fold change
 
@@ -319,3 +320,49 @@ ggarrange(plotlist=list(size.view2$fig, size.view$fig), nrow = 1,  ncol = 2)
 expressed data (left figure) are lower than those with regularly
 expressed data (right figure). More samples will be required to achieve
 a power of 0.8.
+
+### Example 7. Hypothesis testing
+
+We perform differential expression analysis on proliferation T cells
+(Prolif.T) in the COVID-19 subdata from Example 3.
+
+``` r
+## Select proliferation T cells
+cells.interesting <- which(cell.info$cellcluster=="Prolif.T")
+counts.small <- counts[,cells.interesting]
+cell.info.small <- data.frame(id=cell.info[cells.interesting, "SampleId"],
+                       x1=ifelse(cell.info[cells.interesting, "condition"]=="Neg", 0, 1) )
+
+## Select genes that will be tested
+aa <- estPreParas(counts=counts.small, cell.info=cell.info.small)
+idx.selected <- with(aa, which(nonZeroPs1>0.1 & nonZeroPs2>0.1))
+aaP <- aa[idx.selected,]
+curve.view <- fitSdmean(preParas=aaP, sp.method = "ns")
+```
+
+![](scPS_indep_files/figure-gfm/7.1-1.png)<!-- -->
+
+``` r
+hf <- curve.view$hf.sigma
+
+## Test the selected genes
+counts.test <- counts.small[idx.selected,]
+geeout <- geeDEA(counts.test, cell.info=cell.info.small, hf=hf, BCC=1)
+head(geeout)
+```
+
+    ##               logFC      unadj.p         icc   est.mu1    est.mu2   raw.mu1
+    ## NOC2L   0.312492441 0.3505189597 0.040459670 0.3003681  0.4105514 0.2854481
+    ## ISG15   2.295535016 0.0001635491 0.272872038 1.3688253 13.5920892 1.3427873
+    ## SDF4   -0.002163914 0.9904174286 0.012172674 1.1233417  1.1209135 1.1082814
+    ## UBE2J2  0.461092172 0.0027223864 0.002239926 0.3258388  0.5167168 0.3255838
+    ## PUSL1   0.191875556 0.1439346235 0.001079241 0.1681819  0.2037557 0.1681348
+    ## INTS11  0.407977407 0.1025351859 0.009788623 0.4354013  0.6547449 0.4420937
+    ##           raw.mu2
+    ## NOC2L   0.3679941
+    ## ISG15  18.1294192
+    ## SDF4    0.9752066
+    ## UBE2J2  0.5074174
+    ## PUSL1   0.1966548
+    ## INTS11  0.6102113
+
