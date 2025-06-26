@@ -2,13 +2,17 @@ scPS: power and sample size calculation in differential expression analysis of s
 ================
 Chih-Yuan Hsu
 
-Sept/15/2024
+June/26/2025
 
-Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2024). A distribution-free and analytic method for power and sample size calculation in single-cell differential expression. *Bioinformatics*. 10.1093/bioinformatics/btae540
+Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2024). A distribution-free and analytic method for power and sample size calculation in single-cell differential expression. *Bioinformatics*. Volume 40, Issue 9, https://doi.org/10.1093/bioinformatics/btae540
 
 ## Installation
 
-Download scPS_0.5.1.tar.gz and locally install it.
+Download nifts_0.5.2.tar.gz and locally install it, or execute the following code:
+``` r
+library(devtools)
+install_github("cyhsuTN/scPS")
+```
 
 ## Usage
 
