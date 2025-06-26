@@ -1,0 +1,15 @@
+Package: scPS
+Type: Package
+Title: Power and Sample Size Calculation for Single-cell Differential Expression
+Version: 0.5.2
+Date: 2025-06-26
+Author: Chih-Yuan Hsu
+Maintainer: Chih-Yuan Hsu <chih-yuan.hsu@vumc.org>
+Description: A tool for power and sample size calculation in single-cell differential expression.
+License: GPL-2 | GPL-3
+Imports: Matrix, stats, ggplot2, ggpubr, nleqslv, splines
+Encoding: UTF-8
+LazyData: true
+LazyDataCompression: xz
+RoxygenNote: 7.2.3
+Depends: R (>= 3.1)
