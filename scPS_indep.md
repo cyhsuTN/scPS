@@ -155,9 +155,10 @@ view.size <- sizeCal.multi(low.up.m=c(10,14), low.up.n=c(200,500),
      ePower=0.8, FDR=0.05, grid.m=1, grid.n=50, r=1, rc=1, total=NULL, Genes.tested)
 view.size$fig
 ```
-For example, 450 cells in total (about 61 DC cells and 57 Prolif.T cells) per subject 
-can achieve 82% power to detect the DEGs in the two cell types at FDR = 0.05.
-However, this overall power does not guarantee that each individual cell type will achieve 82% power independently. 
+For example, with 10 subjects per group and a total of 450 cells per subject 
+(about 61 DC cells and 57 Prolif.T cells per subject), 
+an overall power of 82% can be achieved to detect the DEGs in the two cell types at FDR = 0.05.
+However, this overall power does not guarantee that each individual cell type will achieve 82% power independently.
 
 ![](scPS_indep_files/figure-gfm/3.4-1.png)<!-- -->
 
