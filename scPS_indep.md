@@ -155,6 +155,8 @@ view.size <- sizeCal.multi(low.up.m=c(10,14), low.up.n=c(200,500),
      ePower=0.8, FDR=0.05, grid.m=1, grid.n=50, r=1, rc=1, total=NULL, Genes.tested)
 view.size$fig
 ```
+For example, 450 cells in total (about 61 DC cells and 57 Prolif.T cells) per subject 
+can achieve 82% power to detect the DEGs of the two cell types at FDR = 0.05. 
 
 ![](scPS_indep_files/figure-gfm/3.4-1.png)<!-- -->
 
