@@ -163,6 +163,10 @@ view.size <- sizeCal.multi.BA(low.up.m=c(10,14), low.up.n=c(400,700),
                               ePower=0.8, FDR=0.05, grid.m=1, grid.n=50, rc=1, Genes.tested)
 view.size$fig
 ```
+For example, with a total of 11 subjects and 550 cells per stage per subject 
+(about 109 NK cells and 74 B cells per stage per subject), 
+an overall power of 81% can be achieved to detect the DEGs in the two cell types at FDR = 0.05.
+However, this overall power does not guarantee that each individual cell type will achieve 81% power independently.
 
 ![](scPS_paired_files/figure-gfm/3.4-1.png)<!-- -->
 
