@@ -27,11 +27,12 @@ library(scPS)
 - [Comparison between paired groups](scPS_paired.md)
 
 ### Web Version of scPS
-To simplify parameter settings, the web version supports power and sample size calculations for only one specific cell type of interest. However, the total number of required cells per subject can be estimated by dividing the number of required cells of interest by their proportion in the cell population. For example, if 100 cells of interest are needed and their proportion is 20%, the total required cells would be 500 (=100/0.2).
+To simplify parameter settings, the web version supports power and sample size calculation for only one specific cell type of interest. However, the total number of required cells per subject can be estimated by dividing the number of required cells of interest by their proportion in the cell population. For example, if 100 cells of interest are needed and their proportion is 20%, the total required cells would be 500 (=100/0.2).
 
 - Independent two-group comparison:
   <https://cyhsutn.shinyapps.io/scPS_shiny_Indep/>
 - Paired-group comparison:
   <https://cyhsutn.shinyapps.io/scPS_shiny_Paired/>
+
 
 
