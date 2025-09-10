@@ -2,7 +2,7 @@ scPS: power and sample size calculation in differential expression analysis of s
 ================
 Chih-Yuan Hsu
 
-June/26/2025
+Sept/10/2025
 
 Chih-Yuan Hsu, Qi Liu, and Yu Shyr (2024). A distribution-free and analytic method for power and sample size calculation in single-cell differential expression. *Bioinformatics*. Volume 40, Issue 9, https://doi.org/10.1093/bioinformatics/btae540
 
@@ -33,6 +33,7 @@ To simplify parameter settings, the web version supports power and sample size c
   <https://cyhsutn.shinyapps.io/scPS_shiny_Indep/>
 - Paired-group comparison:
   <https://cyhsutn.shinyapps.io/scPS_shiny_Paired/>
+
 
 
 
